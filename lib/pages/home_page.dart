@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice31_hw3/calculator_logic/calc_logic.dart';
 
 class HomePage extends StatefulWidget {
   static final String id = "home_page";
@@ -11,12 +12,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Widget _makeButtons({required String option, required bool isBlack}) {
+  Widget _makeButtons(
+      {required String option,
+      required bool isBlack,
+      required void Function() function}) {
     return Expanded(
         child: Container(
       width: double.infinity,
       child: TextButton(
-        onPressed: () {},
+        onPressed: function,
         child: Text(
           option,
           style: TextStyle(
@@ -27,6 +31,31 @@ class _HomePageState extends State<HomePage> {
       ),
     ));
   }
+
+  StringBuffer _displayValue = StringBuffer();
+  List<num> _list = [];
+  late String _operation;
+  String _lastCalculation = "";
+  List<String> _historyOfCalculations = [];
+
+  StringBuffer _checkForZeros() {
+    if (_displayValue.length > 2 &&
+        _displayValue.toString()[_displayValue.length - 1] == "0" &&
+        _displayValue.toString()[_displayValue.length - 2] == ".") {
+      var splitedList = _displayValue.toString().split("");
+      splitedList.removeRange(splitedList.length - 2, splitedList.length);
+      _displayValue.clear();
+      _displayValue.write(splitedList.join(""));
+      return _displayValue;
+    } else {
+      // var value = num.parse(_displayValue.toString()).toStringAsFixed(0);
+      // _displayValue.clear();
+      // _displayValue.write(value);
+      return _displayValue;
+    }
+  }
+
+  //(_displayValue.length > 2 &&_displayValue.toString()[_displayValue.length-1] == "0" &&  _displayValue.toString()[_displayValue.length-2] == ".") ? _displayValue.
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +94,9 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "16",
+                        _displayValue.toString().isNotEmpty
+                            ? _checkForZeros().toString()
+                            : "0",
                         style: TextStyle(
                             fontSize: 65,
                             color: Colors.white,
@@ -74,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                       Transform.translate(
                         offset: Offset(0, -9),
                         child: Text(
-                          "1590 - 1574",
+                          _lastCalculation,
                           style: TextStyle(
                               fontSize: 23,
                               color: Colors.white,
@@ -95,7 +126,10 @@ class _HomePageState extends State<HomePage> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "289 * 16",
+                            _historyOfCalculations.length >= 2
+                                ? _historyOfCalculations[
+                                    _historyOfCalculations.length - 2]
+                                : "",
                             style: TextStyle(
                                 fontSize: 17,
                                 color: Colors.white,
@@ -119,47 +153,206 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _makeButtons(option: "C", isBlack: false),
-                      _makeButtons(option: "()", isBlack: true),
-                      _makeButtons(option: "%", isBlack: true),
-                      _makeButtons(option: "/", isBlack: true),
+                      _makeButtons(
+                        option: "C",
+                        isBlack: false,
+                        function: () {
+                          setState(() {
+                            _displayValue.clear();
+                            _list.removeRange(0, _list.length);
+                          });
+                        },
+                      ),
+                      _makeButtons(
+                          option: "()",
+                          isBlack: true,
+                          function: () {
+                            setState(() {});
+                          }),
+                      _makeButtons(
+                          option: "%",
+                          isBlack: true,
+                          function: () {
+                            _operation = "%";
+                            _list.add(num.parse(_displayValue.toString()));
+                            _displayValue.clear();
+                          }),
+                      _makeButtons(
+                          option: "/",
+                          isBlack: true,
+                          function: () {
+                            _operation = "/";
+                            _list.add(num.parse(_displayValue.toString()));
+                            _displayValue.clear();
+                          }),
                     ],
                   ),
                 )),
                 Expanded(
                     child: Row(
                   children: [
-                    _makeButtons(option: "7", isBlack: true),
-                    _makeButtons(option: "8", isBlack: true),
-                    _makeButtons(option: "9", isBlack: true),
-                    _makeButtons(option: "x", isBlack: true),
+                    _makeButtons(
+                        option: "7",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(7);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "8",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(8);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "9",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(9);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "x",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _operation = "x";
+                            _list.add(num.parse(_displayValue.toString()));
+                            _displayValue.clear();
+                          });
+                        }),
                   ],
                 )),
                 Expanded(
                     child: Row(
                   children: [
-                    _makeButtons(option: "4", isBlack: true),
-                    _makeButtons(option: "5", isBlack: true),
-                    _makeButtons(option: "6", isBlack: true),
-                    _makeButtons(option: "-", isBlack: true),
+                    _makeButtons(
+                        option: "4",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(4);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "5",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(5);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "6",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(6);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "-",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _operation = "-";
+                            _displayValue.isEmpty
+                                ? _list.add(num.parse("-$_displayValue"))
+                                : _list
+                                    .add(num.parse(_displayValue.toString()));
+                            _displayValue.clear();
+                          });
+                        }),
                   ],
                 )),
                 Expanded(
                     child: Row(
                   children: [
-                    _makeButtons(option: "1", isBlack: true),
-                    _makeButtons(option: "2", isBlack: true),
-                    _makeButtons(option: "3", isBlack: true),
-                    _makeButtons(option: "+", isBlack: true),
+                    _makeButtons(
+                        option: "1",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(1);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "2",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(2);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "3",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(3);
+                          });
+                        }),
+                    _makeButtons(
+                        option: "+",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _operation = "+";
+                            _displayValue.isEmpty
+                                ? _list.add(num.parse("+$_displayValue"))
+                                : _list
+                                    .add(num.parse(_displayValue.toString()));
+                            _displayValue.clear();
+                          });
+                        }),
                   ],
                 )),
                 Expanded(
                     child: Row(
                   children: [
-                    _makeButtons(option: "+/-", isBlack: true),
-                    _makeButtons(option: "0", isBlack: true),
-                    _makeButtons(option: ".", isBlack: true),
-                    _makeButtons(option: "=", isBlack: false),
+                    _makeButtons(
+                        option: "+/-",
+                        isBlack: true,
+                        function: () {
+                          setState(() {});
+                        }),
+                    _makeButtons(
+                        option: "0",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(0);
+                          });
+                        }),
+                    _makeButtons(
+                        option: ".",
+                        isBlack: true,
+                        function: () {
+                          setState(() {
+                            _displayValue.write(".");
+                          });
+                        }),
+                    _makeButtons(
+                        option: "=",
+                        isBlack: false,
+                        function: () {
+                          setState(() {
+                            _list.add(num.parse(_displayValue.toString()));
+                            _displayValue.clear();
+                            _displayValue.write(CalcLogic.calculate(
+                                _list[_list.length - 2],
+                                _list.last,
+                                _operation));
+                            _lastCalculation =
+                                "${_list[_list.length - 2]} ${_operation} ${_list.last}";
+                            _historyOfCalculations.add(_lastCalculation);
+                            _list.removeRange(0, _list.length);
+                          });
+                        }),
                   ],
                 )),
               ],
