@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice31_hw3/calculator_logic/calc_logic.dart';
 
-
 class HomePage extends StatefulWidget {
-  static final String id = "home_page";
+  static const String id = "home_page";
   const HomePage({
     super.key,
   });
@@ -12,7 +11,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>{
+class _HomePageState extends State<HomePage> {
   Widget _makeButtons(
       {required String option,
       required bool isBlack,
@@ -33,11 +32,11 @@ class _HomePageState extends State<HomePage>{
     ));
   }
 
-  StringBuffer _displayValue = StringBuffer();
-  List<num> _list = [];
+  final StringBuffer _displayValue = StringBuffer();
+  final List<num> _list = [];
   late String _operation;
   String _lastCalculation = "";
-  List<String> _historyOfCalculations = [];
+  final List<String> _historyOfCalculations = [];
 
   StringBuffer _checkForZeros() {
     if (_displayValue.length > 2 &&
@@ -69,7 +68,7 @@ class _HomePageState extends State<HomePage>{
   bool _equalSignPressed = false;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -84,7 +83,7 @@ class _HomePageState extends State<HomePage>{
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                const Column(
                   children: [
                     SizedBox(
                       height: 20,
@@ -99,7 +98,7 @@ class _HomePageState extends State<HomePage>{
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -108,7 +107,7 @@ class _HomePageState extends State<HomePage>{
                         _displayValue.toString().isNotEmpty
                             ? _checkForZeros().toString()
                             : "0",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 65,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
@@ -117,19 +116,19 @@ class _HomePageState extends State<HomePage>{
                         offset: Offset(0, -9),
                         child: Text(
                           _lastCalculation,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 23,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "History",
                             style: TextStyle(
                                 fontSize: 17,
@@ -141,7 +140,7 @@ class _HomePageState extends State<HomePage>{
                                 ? _historyOfCalculations[
                                     _historyOfCalculations.length - 2]
                                 : "",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 17,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -155,6 +154,7 @@ class _HomePageState extends State<HomePage>{
             ),
           )),
           Expanded(
+            flex: 2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -432,7 +432,6 @@ class _HomePageState extends State<HomePage>{
                 )),
               ],
             ),
-            flex: 2,
           )
         ],
       ),
