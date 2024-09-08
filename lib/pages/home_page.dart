@@ -48,14 +48,24 @@ class _HomePageState extends State<HomePage> {
       _displayValue.write(splitedList.join(""));
       return _displayValue;
     } else {
-      // var value = num.parse(_displayValue.toString()).toStringAsFixed(0);
-      // _displayValue.clear();
-      // _displayValue.write(value);
       return _displayValue;
     }
   }
 
-  //(_displayValue.length > 2 &&_displayValue.toString()[_displayValue.length-1] == "0" &&  _displayValue.toString()[_displayValue.length-2] == ".") ? _displayValue.
+  void checkValue() {
+    if (_displayValue.isEmpty) {
+      setState(() {
+        _displayValue.write("-");
+      });
+      _list.add(num.parse("-$_displayValue"));
+    } else {
+      _operation = "-";
+      _list.add(num.parse(_displayValue.toString()));
+      _displayValue.clear();
+    }
+  }
+
+  bool _equalSignPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +206,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(7);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(7);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(7);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -204,7 +220,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(8);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(8);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(8);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -212,7 +234,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(9);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(9);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(9);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -235,7 +263,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(4);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(4);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(4);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -243,7 +277,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(5);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(5);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(5);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -251,7 +291,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(6);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(6);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(6);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -259,12 +305,7 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _operation = "-";
-                            _displayValue.isEmpty
-                                ? _list.add(num.parse("-$_displayValue"))
-                                : _list
-                                    .add(num.parse(_displayValue.toString()));
-                            _displayValue.clear();
+                            checkValue();
                           });
                         }),
                   ],
@@ -277,7 +318,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(1);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(1);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(1);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -285,7 +332,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(2);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(2);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(2);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -293,7 +346,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(3);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(3);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(3);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -325,7 +384,13 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(0);
+                            if (_equalSignPressed) {
+                              _displayValue.clear();
+                              _displayValue.write(0);
+                              _equalSignPressed = false;
+                            } else {
+                              _displayValue.write(0);
+                            }
                           });
                         }),
                     _makeButtons(
@@ -333,7 +398,15 @@ class _HomePageState extends State<HomePage> {
                         isBlack: true,
                         function: () {
                           setState(() {
-                            _displayValue.write(".");
+                            if (!_displayValue.toString().contains(".")) {
+                              if (_equalSignPressed) {
+                                _displayValue.clear();
+                                _displayValue.write(".");
+                                _equalSignPressed = false;
+                              } else {
+                                _displayValue.write(".");
+                              }
+                            }
                           });
                         }),
                     _makeButtons(
@@ -351,6 +424,7 @@ class _HomePageState extends State<HomePage> {
                                 "${_list[_list.length - 2]} ${_operation} ${_list.last}";
                             _historyOfCalculations.add(_lastCalculation);
                             _list.removeRange(0, _list.length);
+                            _equalSignPressed = true;
                           });
                         }),
                   ],
