@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice31_hw3/calculator_logic/calc_logic.dart';
 
+
 class HomePage extends StatefulWidget {
   static final String id = "home_page";
   const HomePage({
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>{
   Widget _makeButtons(
       {required String option,
       required bool isBlack,
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
   bool _equalSignPressed = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
